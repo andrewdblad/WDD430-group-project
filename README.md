@@ -1,4 +1,4 @@
 # WDD430-group-project
 Herman, Siarhei Herman
-Malan, Jared
+Malan, Jared 
 Blad, Andrew
