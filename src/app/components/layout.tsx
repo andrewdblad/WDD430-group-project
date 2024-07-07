@@ -7,7 +7,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
     return (
         <div className='min-h-screen flex flex-col'>
-            <nav className='bg-gray-800 p-4'>
+            <nav className='bg-seasalt p-4 border-b-2'>
                 <div className='container mx-auto text-white'> Nav Bar - Jared Malan</div>
             </nav>
             <main className='flex-1'>
