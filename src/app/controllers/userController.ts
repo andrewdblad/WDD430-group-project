@@ -1,7 +1,7 @@
 // Controllers
 
 import { createUser, getUserByEmail } from "@/app/lib/data";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 // Actions
 

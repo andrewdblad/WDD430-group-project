@@ -1,5 +1,7 @@
 import { sql } from '@vercel/postgres';
-import { bcrypt } from 'bcrypt';
+import { bcrypt } from 'bcryptjs';
+require('dotenv').config();
+
 
 // User CRUD operations
 export async function createUser(username: string, email: string, password: string, profile_description: string) {
