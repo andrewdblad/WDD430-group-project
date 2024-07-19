@@ -1,4 +1,4 @@
-// File: /Users/jaredmalan/WDD430-Full-Stack-Development/WDD430-W2/WDD430-group-project/handcrafted-haven/src/app/layout.tsx
+// File: C:\Users\james\OneDrive\encrypted storage\wdd430\WDD430-group-project\src\app\layout.tsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
