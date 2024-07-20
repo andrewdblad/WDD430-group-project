@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import NavBar from './NavBar';
 
 interface LayoutProps {
     children: ReactNode;
@@ -7,9 +8,8 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
     return (
         <div className='min-h-screen flex flex-col'>
-            <nav className='bg-seasalt p-4 border-b-2'>
-                <div className='container mx-auto text-white'> Nav Bar - Jared Malan</div>
-            </nav>
+            <NavBar />
+            <main>{children}</main>
             <main className='flex-1'>
                 {children}
             </main>
