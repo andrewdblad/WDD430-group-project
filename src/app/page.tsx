@@ -5,7 +5,7 @@ import Layout from './components/layout';
 export default function Home() {
     return (
         <Layout>
-            <div className='flex flex-col h-screen bg-seasalt p-5'>
+            <div className='flex flex-col h-screen bg-seasalt p-5 pt-20'>
                 <section className="bg-red-500 flex-grow flex justify-center items-center">
                     <div className="text-white text-center">Banner: Image of product with button - Siarhei Herman</div>
                 </section>
