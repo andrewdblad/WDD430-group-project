@@ -38,7 +38,7 @@ const Navbar = () => {
                         <Image src="/logo-w.png" alt="Handcrafted Haven Logo" width={50} height={50} />
                     </Link>
                 </div>
-                <div className="hidden md:flex items-center space-x-20">
+                <div className="hidden md:flex items-center space-x-24">
                     <Link href="/profiles">
                         <UserIcon className="h-8 w-8 hidden md:block" />
                         <span className="block md:hidden">Seller Profiles</span>
