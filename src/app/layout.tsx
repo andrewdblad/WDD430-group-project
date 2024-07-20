@@ -17,9 +17,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             {/* Default favicon (light mode) */}
-            <link rel="icon" href="../../favicon-light.ico" media="(prefers-color-scheme: light)" />
+            <link rel="icon" href="/favicon-light.ico" media="(prefers-color-scheme: light)" />
             {/* Dark mode favicon */}
-            <link rel="icon" href="../../favicon-dark.ico" media="(prefers-color-scheme: dark)" />
+            <link rel="icon" href="/favicon-dark.ico" media="(prefers-color-scheme: dark)" />
             <body className={inter.className}>{children}</body>
         </html>
     );
