@@ -5,11 +5,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { UserIcon } from '@heroicons/react/16/solid';
-
-
-
+import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { UserIcon } from '@heroicons/react/24/solid';
 
 const Navbar = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -18,7 +15,6 @@ const Navbar = () => {
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
-
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,9 +27,9 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-hookersgreen text-white p-4 fixed w-full z-10">
+        <nav className="bg-hookersgreen text-white p-4 fixed w-full z-20">
             <div className="container mx-auto flex justify-between items-center">
-                <div className="flex items-center space-x-16">
+                <div className="flex items-center space-x-4 md:space-x-16">
                     <Link href="/" className="text-xl font-bold">
                         <Image src="/logo-w.png" alt="Handcrafted Haven Logo" width={50} height={50} />
                     </Link>
@@ -53,10 +49,10 @@ const Navbar = () => {
                             value={searchTerm}
                             onChange={handleSearchChange}
                             placeholder="Search..."
-                            className="px-2 py-1 rounded-l-md border-none text-black"
+                            className="px-2 py-1 rounded-l-md border-none text-black md:w-48 w-32"
                         />
-                        <button type="submit" className="px-3 py-1 bg-khaki rounded-r-md">
-                            Search
+                        <button type="submit" className="ml-(-1) px-3 py-1 bg-khaki rounded-r-md">
+                            <MagnifyingGlassIcon className="h-5 w-5 text-black" />
                         </button>
                     </form>
                 </div>
@@ -67,7 +63,6 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* This is the drop-down menu */}
             {isOpen && (
                 <div className="md:hidden fixed top-14 left-0 right-0 bg-hookersgreen bg-opacity-75 flex flex-col items-center justify-center space-y-2 mt-3 pb-2 z-20">
                     <Link href="/profiles" className="block px-2 py-1">Seller Profile</Link>

@@ -11,7 +11,7 @@ const Layout = ({ children }: LayoutProps) => {
             <NavBar />
             <main className='flex-1'>{children}</main>
 
-            <footer className='bg-gray-800 p4 text-white text-center'>
+            <footer className='bg-gray-800 p-4 text-white text-center'>
                 Footer
             </footer>
         </div>
