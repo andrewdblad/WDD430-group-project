@@ -1,17 +1,22 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { getAllProducts } from '../../../lib/data';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { sql } from '@vercel/postgres';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === 'GET') {
-        try {
-            const products = await getAllProducts();
-            res.status(200).json(products);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-            res.status(500).json({ error: 'Error fetching products' });
-        }
-    } else {
-        res.setHeader('Allow', ['GET']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+    try {
+        const result = await sql`
+            SELECT products.*, 
+            CASE 
+                WHEN categories.id = 1 THEN 'jewelry' 
+                WHEN categories.id = 2 THEN 'toys' 
+                WHEN categories.id = 3 THEN 'decoration' 
+            END as category_name
+            FROM products
+            JOIN categories ON products.category_id = categories.id;
+        `;
+        console.log('Products fetched:', result.rows); // Debugging statement
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Database Error:', error);
+        res.status(500).json({ message: 'Failed to fetch products.' });
     }
 }

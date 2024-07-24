@@ -5,6 +5,7 @@ interface Product {
     id: number;
     user_id: number;
     category_id: number;
+    category_name: string;
     name: string;
     description: string;
     price: number | string;
@@ -17,6 +18,7 @@ const ProductListing = () => {
     const [cardsPerPage, setCardsPerPage] = useState(1);
     const [priceFilter, setPriceFilter] = useState<number | null>(null);
     const [categoryFilter, setCategoryFilter] = useState<string>('');
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -26,6 +28,7 @@ const ProductListing = () => {
                 }
 
                 const products: Product[] = await response.json();
+                console.log('Fetched products:', products); // Debugging statement
                 setProducts(products);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -61,8 +64,7 @@ const ProductListing = () => {
     };
 
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const value = event.target.value;
-        setCategoryFilter(value);
+        setCategoryFilter(event.target.value);
     }
 
     const totalPages = Math.ceil(products.length / cardsPerPage);
@@ -78,11 +80,14 @@ const ProductListing = () => {
         setCurrentPage((prevPage) => (prevPage - 1 + totalPages) % totalPages);
     };
 
+    console.log('Current category filter:', categoryFilter); // Debugging statement
+    console.log('Current products:', currentProducts); // Debugging statement
+
     return (
         <Layout>
             <div className="p-5 pt-32">
                 <h1 className="text-3xl font-bold mb-4">Product Listings</h1>
-                <div className="mb-4"> 
+                <div className="mb-4">
                     <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price</label>
                     <input
                         type="number"
@@ -94,18 +99,18 @@ const ProductListing = () => {
                     />
                 </div>
                 <div className="mb-4">
-                <label htmlFor="categories" className="block text-sm font-medium text-gray-700">Categories</label>
-                <select
-                    id="categories"
-                    name="categories"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm filter-bar"
-                    onChange={handleCategoryChange}
-                >
-                    <option value="">All Categories</option>
-                    <option value="jewelry">Jewelry</option>
-                    <option value="toys">Toys</option>
-                    <option value="decoration">Decoration</option>
-                </select>
+                    <label htmlFor="categories" className="block text-sm font-medium text-gray-700">Categories</label>
+                    <select
+                        id="categories"
+                        name="categories"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm filter-bar"
+                        onChange={handleCategoryChange}
+                    >
+                        <option value="">All Categories</option>
+                        <option value="jewelry">Jewelry</option>
+                        <option value="toys">Toys</option>
+                        <option value="decoration">Decoration</option>
+                    </select>
                 </div>
                 {products.length === 0 ? (
                     <p>No Products Available</p>
@@ -116,7 +121,7 @@ const ProductListing = () => {
                                 .filter(product => {
                                     const productPrice = typeof product.price === 'number' ? product.price : parseFloat(product.price);
                                     const matchesPrice = priceFilter === null || productPrice <= priceFilter;
-                                    const matchesCategory = categoryFilter === '' || product.category_id === parseInt(categoryFilter);
+                                    const matchesCategory = categoryFilter === '' || product.category_name === categoryFilter;
                                     return matchesPrice && matchesCategory;
                                 })
                                 .map((product) => (
