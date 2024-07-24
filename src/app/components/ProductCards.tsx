@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useSwipeable } from 'react-swipeable';
+import { getAllProducts } from '../../lib/data';
+
+
 
 // We need to modify this as we are supposed to get the data from the database rather than hard-coding and declaring local objects. 
 const products = [
