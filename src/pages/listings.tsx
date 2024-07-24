@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../app/components/ClientLayout';
 
 interface Product {
@@ -15,7 +15,8 @@ const ProductListing = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [cardsPerPage, setCardsPerPage] = useState(1);
-
+    const [priceFilter, setPriceFilter] = useState<number | null>(null);
+    const [categoryFilter, setCategoryFilter] = useState<string>('');
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -54,6 +55,16 @@ const ProductListing = () => {
         return () => window.removeEventListener('resize', updateCardsPerPage);
     }, []);
 
+    const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseFloat(event.target.value);
+        setPriceFilter(isNaN(value) ? null : value);
+    };
+
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value;
+        setCategoryFilter(value);
+    }
+
     const totalPages = Math.ceil(products.length / cardsPerPage);
     const start = currentPage * cardsPerPage;
     const end = start + cardsPerPage;
@@ -71,18 +82,50 @@ const ProductListing = () => {
         <Layout>
             <div className="p-5 pt-32">
                 <h1 className="text-3xl font-bold mb-4">Product Listings</h1>
+                <div className="mb-4"> 
+                    <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm price-bar"
+                        placeholder="$0.00"
+                        onChange={handlePriceChange}
+                    />
+                </div>
+                <div className="mb-4">
+                <label htmlFor="categories" className="block text-sm font-medium text-gray-700">Categories</label>
+                <select
+                    id="categories"
+                    name="categories"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm filter-bar"
+                    onChange={handleCategoryChange}
+                >
+                    <option value="">All Categories</option>
+                    <option value="jewelry">Jewelry</option>
+                    <option value="toys">Toys</option>
+                    <option value="decoration">Decoration</option>
+                </select>
+                </div>
                 {products.length === 0 ? (
                     <p>No Products Available</p>
                 ) : (
                     <div className="relative w-full mt-20 mb-20">
                         <div className="flex justify-center overflow-x-auto space-x-4 p-4">
-                            {currentProducts.map((product) => (
-                                <div key={product.id} className="bg-white rounded-lg shadow-lg p-4 min-w-[80%] sm:min-w-[200px] max-w-[200px] flex-shrink-0">
-                                    <img src={product.image_url} alt={product.name} className="object-cover rounded-t-lg w-full h-48" />
-                                    <h2 className="text-l font-bold mt-2 text-black">{product.name}</h2>
-                                    <p className="text-gray-600">${typeof product.price === 'number' ? product.price.toFixed(2) : parseFloat(product.price).toFixed(2)}</p>
-                                </div>
-                            ))}
+                            {currentProducts
+                                .filter(product => {
+                                    const productPrice = typeof product.price === 'number' ? product.price : parseFloat(product.price);
+                                    const matchesPrice = priceFilter === null || productPrice <= priceFilter;
+                                    const matchesCategory = categoryFilter === '' || product.category_id === parseInt(categoryFilter);
+                                    return matchesPrice && matchesCategory;
+                                })
+                                .map((product) => (
+                                    <div key={product.id} className="bg-white rounded-lg shadow-lg p-4 min-w-[80%] sm:min-w-[200px] max-w-[200px] flex-shrink-0">
+                                        <img src={product.image_url} alt={product.name} className="object-cover rounded-t-lg w-full h-48" />
+                                        <h2 className="text-l font-bold mt-2 text-black">{product.name}</h2>
+                                        <p className="text-gray-600">${typeof product.price === 'number' ? product.price.toFixed(2) : parseFloat(product.price).toFixed(2)}</p>
+                                    </div>
+                                ))}
                         </div>
 
                         <div className="absolute bottom-0 left-0 right-0 flex justify-center space-x-2 p-2">
