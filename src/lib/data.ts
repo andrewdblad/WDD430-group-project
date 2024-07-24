@@ -152,6 +152,21 @@ export async function getProductById(id: number) {
     }
 }
 
+
+export async function getProductsByUserId(userId: number) {
+    try {
+        const result = await client.query(
+            'SELECT * FROM products WHERE user_id = $1;',
+            [userId]
+        );
+        return result.rows;
+    } catch (error) {
+        console.error('Error getting products by user ID:', error);
+    }
+}
+
+
+
 export async function updateProduct(id: number, user_id: number, category_id: number, name: string, description: string, price: number, image_url: string) {
     try {
         const result = await client.query(

@@ -61,7 +61,7 @@ const ProfilePage = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('/api/products');
+            const response = await fetch(`/api/products?userId=${session?.user.id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch products');
             }
@@ -114,16 +114,20 @@ const ProfilePage = () => {
                     <button type="submit">Add Product</button>
                 </form>
                 <h2>Your Products</h2>
-                <ul>
-                    {products.map((product) => (
-                        <li key={product.id}>
-                            <h3>{product.name}</h3>
-                            <p>{product.description}</p>
-                            <p>${product.price}</p>
-                            {/* Add buttons for edit and delete functionality here */}
-                        </li>
-                    ))}
-                </ul>
+                {products.length === 0 ? (
+                    <p>No Products Uploaded Yet</p>
+                ) : (
+                    <ul>
+                        {products.map((product) => (
+                            <li key={product.id}>
+                                <h3>{product.name}</h3>
+                                <p>{product.description}</p>
+                                <p>${product.price}</p>
+                                {/* Add buttons for edit and delete functionality here */}
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
         </div>
     );
