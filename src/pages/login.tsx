@@ -1,12 +1,20 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Login() {
     const { data: session } = useSession();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const router = useRouter();
+
+    useEffect(() => {
+        if (session) {
+            router.push('/profiles');
+        }
+    }, [session]);
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
