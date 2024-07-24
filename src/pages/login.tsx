@@ -29,6 +29,9 @@ export default function Login() {
             setError(result.error);
         } else {
             setError('');
+            if (result?.ok) {
+                router.push('/profiles');
+            }
         }
     };
 

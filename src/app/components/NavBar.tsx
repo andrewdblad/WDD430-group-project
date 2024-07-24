@@ -1,14 +1,15 @@
 "use client";
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
 import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/solid';
 
 const Navbar = () => {
+    const { data: session } = useSession();
     const [searchTerm, setSearchTerm] = useState('');
     const [isOpen, setIsOpen] = useState(false);
 
@@ -35,7 +36,7 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <div className="hidden md:flex items-center space-x-24">
-                    <Link href="/profiles">
+                    <Link href={session ? "/profiles" : "/login"}>
                         <UserIcon className="h-8 w-8 hidden md:block" />
                         <span className="block md:hidden">Seller Profiles</span>
                     </Link>
@@ -65,7 +66,7 @@ const Navbar = () => {
 
             {isOpen && (
                 <div className="md:hidden fixed top-14 left-0 right-0 bg-hookersgreen bg-opacity-75 flex flex-col items-center justify-center space-y-2 mt-3 pb-2 z-20">
-                    <Link href="/profiles" className="block px-2 py-1">Seller Profile</Link>
+                    <Link href={session ? "/profiles" : "/login"} className="block px-2 py-1">Seller Profile</Link>
                     <Link href="/listings" className="block px-2 py-1">Products</Link>
                     <Link href="/reviews" className="block px-2 py-1">Reviews</Link>
                 </div>
