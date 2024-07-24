@@ -1,10 +1,9 @@
 "use client";
 
 import Link from 'next/link';
-import { useState, Fragment } from 'react';
+import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/solid';
 
@@ -19,7 +18,6 @@ const Navbar = () => {
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle search logic here, such as redirecting to a search results page. This still needs to be developed more
         console.log('Searching for:', searchTerm);
     };
 

@@ -1,5 +1,5 @@
 
-import Layout from '../app/components/layout';
+import Layout from '../app/components/ClientLayout';
 
 const ProductListing = () => {
     return (
