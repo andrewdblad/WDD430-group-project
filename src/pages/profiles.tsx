@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import NavBar from '../app/components/NavBar';
+import Modal from '../app/components/Modal';
 import '../app/globals.css';
 
 interface Product {
@@ -22,6 +23,8 @@ const ProfilePage = () => {
     const [image, setImage] = useState('');
     const [editMode, setEditMode] = useState(false);
     const [productId, setProductId] = useState<number | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const [deleteProductId, setDeleteProductId] = useState<number | null>(null);
 
     useEffect(() => {
         if (session) {
@@ -99,21 +102,30 @@ const ProfilePage = () => {
         setProductId(null);
     };
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = (id: number) => {
+        setDeleteProductId(id);
+        setShowModal(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteProductId) return;
+
         try {
             const response = await fetch(`/api/products/delete`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id }),
+                body: JSON.stringify({ id: deleteProductId }),
             });
 
             if (!response.ok) {
                 throw new Error('Failed to delete product');
             }
 
-            setProducts(products.filter((product) => product.id !== id));
+            setProducts(products.filter((product) => product.id !== deleteProductId));
+            setShowModal(false);
+            setDeleteProductId(null);
         } catch (error) {
             console.error('Error deleting product:', error);
         }
@@ -235,6 +247,12 @@ const ProfilePage = () => {
                     </div>
                 )}
             </div>
+            <Modal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                onConfirm={confirmDelete}
+                message="Are you sure you want to delete this product? This action cannot be undone."
+            />
         </div>
     );
 };
