@@ -137,8 +137,10 @@ export async function getAllProducts() {
         return result.rows;
     } catch (error) {
         console.error('Error getting all products:', error);
+        throw error;
     }
 }
+
 
 export async function getProductById(id: number) {
     try {
