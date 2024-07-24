@@ -179,6 +179,7 @@ export async function updateProduct(id: number, user_id: number, category_id: nu
     }
 }
 
+
 export async function deleteProduct(id: number) {
     try {
         const result = await client.query(
