@@ -182,15 +182,13 @@ export async function updateProduct(id: number, user_id: number, category_id: nu
 
 export async function deleteProduct(id: number) {
     try {
-        const result = await client.query(
-            'DELETE FROM products WHERE id = $1 RETURNING *;',
-            [id]
-        );
+        const result = await client.query('DELETE FROM products WHERE id = $1 RETURNING *;', [id]);
         return result.rows[0];
     } catch (error) {
         console.error('Error deleting product:', error);
     }
 }
+
 
 // Review CRUD operations
 export async function createReview(user_id: number, product_id: number, rating: number, review_text: string) {

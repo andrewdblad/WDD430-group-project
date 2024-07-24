@@ -64,10 +64,7 @@ const ProfilePage = () => {
                 setProducts([...products, updatedProduct]);
             }
 
-            setName('');
-            setDescription('');
-            setPrice('');
-            setImage('');
+            resetForm();
         } catch (error) {
             console.error('Error adding/updating product:', error);
         }
@@ -94,6 +91,39 @@ const ProfilePage = () => {
         setImage(product.image_url);
         setEditMode(true);
         setProductId(product.id);
+    };
+
+    const handleCancel = () => {
+        resetForm();
+        setEditMode(false);
+        setProductId(null);
+    };
+
+    const handleDelete = async (id: number) => {
+        try {
+            const response = await fetch(`/api/products/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete product');
+            }
+
+            setProducts(products.filter((product) => product.id !== id));
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    };
+
+    const resetForm = () => {
+        setName('');
+        setDescription('');
+        setPrice('');
+        setImage('');
     };
 
     if (!session) {
@@ -156,12 +186,23 @@ const ProfilePage = () => {
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             />
                         </div>
-                        <button
-                            type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            {editMode ? 'Update Product' : 'Add Product'}
-                        </button>
+                        <div className="flex items-center justify-between">
+                            <button
+                                type="submit"
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                {editMode ? 'Update Product' : 'Add Product'}
+                            </button>
+                            {editMode && (
+                                <button
+                                    type="button"
+                                    onClick={handleCancel}
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Cancel
+                                </button>
+                            )}
+                        </div>
                     </form>
                 </div>
                 <h2 className="text-xl font-bold mt-10 mb-4">Your Products</h2>
@@ -171,8 +212,8 @@ const ProfilePage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {products.map((product) => (
                             <div className="product-card bg-white shadow-md rounded p-4" key={product.id}>
-                                <img className="w-full h-48 object-cover mb-4" src={product.image_url} alt={product.name} />
-                                <div className="product-details">
+                                <img className="w-full h-48 object-cover mb-4 rounded-t-lg" src={product.image_url} alt={product.name} />
+                                <div className="product-details p-4">
                                     <h3 className="text-lg font-bold">{product.name}</h3>
                                     <p>{product.description}</p>
                                     <p className="text-blue-500 font-bold">${Number(product.price).toFixed(2)}</p>
@@ -181,6 +222,12 @@ const ProfilePage = () => {
                                         className="bg-dimgray hover:bg-khaki text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline mt-2"
                                     >
                                         Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(product.id)}
+                                        className="bg-red-900 hover:bg-red-950 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline mt-2 ml-2"
+                                    >
+                                        Delete
                                     </button>
                                 </div>
                             </div>
