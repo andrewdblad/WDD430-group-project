@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Layout from './components/layout';
 import ProductCards from './components/ProductCards';
+import ReviewCards from './components/ReviewCards';
 
 export default function Home() {
     const [products, setProducts] = useState([]);
@@ -33,8 +34,11 @@ export default function Home() {
                         <ProductCards />
                     </div>
                 </section>
-                <section className="bg-green-500 flex-grow flex justify-center items-center">
-                    <div className="text-white text-center">Best Rated Items: Highest score reviews - Blad Andrew</div>
+                <h1 className="text-center text-4xl font-bold my-8">Best Rated Items</h1>
+                <section className="flex-grow flex justify-center items-center">
+                    <div className="text-white text-center w-full">
+                        <ReviewCards />
+                    </div>
                 </section>
             </div>
         </Layout>
