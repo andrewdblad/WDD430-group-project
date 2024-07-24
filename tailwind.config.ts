@@ -22,10 +22,11 @@ const config: Config = {
                 khaki: '#B6AD9F',
                 timberwolf: '#D5D2CD',
                 asparagus: '#6AAC71',
-
-            }
+                ashgray: '#BCD3C1'
+            },
         },
     },
     plugins: [],
 };
+
 export default config;

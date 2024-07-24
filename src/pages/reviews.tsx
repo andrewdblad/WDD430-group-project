@@ -1,4 +1,4 @@
-import Layout from '../app/components/layout';
+import Layout from '../app/components/ClientLayout';
 import Link from 'next/link';
 
 const reviews = [

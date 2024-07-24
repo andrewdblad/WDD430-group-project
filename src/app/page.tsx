@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import Layout from './components/layout';
+import ClientLayout from './components/ClientLayout';
 import ProductCards from './components/ProductCards';
 import ReviewCards from './components/ReviewCards';
 
@@ -17,14 +17,14 @@ export default function Home() {
     }, []);
 
     return (
-        <Layout>
+        <ClientLayout>
             <div className='flex flex-col h-screen bg-seasalt pt-20 w-full'>
-                <section className=" flex-grow flex justify-center items-center relative w-full h-60">
+                <section className="flex-grow flex justify-center items-center relative w-full h-60">
                     <Image
                         src="/banner.png"
                         alt="Banner Image"
-                        layout="fill"
-                        objectFit="cover"
+                        fill
+                        style={{ objectFit: "cover" }}
                         quality={100}
                     />
                     <div className="absolute text-white text-center z-10"></div>
@@ -41,6 +41,6 @@ export default function Home() {
                     </div>
                 </section>
             </div>
-        </Layout>
+        </ClientLayout>
     );
 }
