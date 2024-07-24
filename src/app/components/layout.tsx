@@ -12,7 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
             <main className='flex-1'>{children}</main>
 
             <footer className='bg-gray-800 p-4 text-white text-center'>
-                Footer
+            © 2024 HANDCRAFTED HAVEN™
             </footer>
         </div>
     );
