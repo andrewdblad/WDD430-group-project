@@ -14,6 +14,12 @@ interface Product {
     image_url: string;
 }
 
+const categories = [
+    { id: 1, name: 'jewelry' },
+    { id: 2, name: 'toys' },
+    { id: 3, name: 'decoration' },
+];
+
 const ProfilePage = () => {
     const { data: session } = useSession();
     const [products, setProducts] = useState<Product[]>([]);
@@ -21,6 +27,7 @@ const ProfilePage = () => {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [image, setImage] = useState('');
+    const [categoryId, setCategoryId] = useState<number | string>(''); // Default to empty string
     const [editMode, setEditMode] = useState(false);
     const [productId, setProductId] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);
@@ -45,7 +52,7 @@ const ProfilePage = () => {
                 body: JSON.stringify({
                     id: productId,
                     user_id: session?.user.id,
-                    category_id: 1, // Assuming category ID is 1 for now
+                    category_id: categoryId,
                     name,
                     description,
                     price: parseFloat(price),
@@ -92,6 +99,7 @@ const ProfilePage = () => {
         setDescription(product.description);
         setPrice(product.price.toString());
         setImage(product.image_url);
+        setCategoryId(product.category_id);
         setEditMode(true);
         setProductId(product.id);
     };
@@ -136,6 +144,7 @@ const ProfilePage = () => {
         setDescription('');
         setPrice('');
         setImage('');
+        setCategoryId('');
     };
 
     if (!session) {
@@ -186,6 +195,22 @@ const ProfilePage = () => {
                                 required
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2">Category</label>
+                            <select
+                                value={categoryId}
+                                onChange={(e) => setCategoryId(Number(e.target.value))}
+                                required
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            >
+                                <option value="">Select Category</option>
+                                {categories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Image URL</label>
