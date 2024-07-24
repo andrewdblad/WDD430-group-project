@@ -6,15 +6,22 @@ export default function Login() {
     const { data: session } = useSession();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault(); // Prevent the default form submission
+        e.preventDefault();
 
-       await signIn('credentials', {
+        const result = await signIn('credentials', {
             redirect: false,
             email,
             password,
         });
+
+        if (result?.error) {
+            setError(result.error);
+        } else {
+            setError('');
+        }
     };
 
     return (
@@ -57,6 +64,7 @@ export default function Login() {
                                     />
                                 </div>
                             </div>
+                            {error && <p className="mt-2 text-red-500">{error}</p>}
                             <div>
                                 <button
                                     type="submit"
