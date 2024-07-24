@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import NavBar from '../app/components/NavBar';
-import Modal from '../app/components/Modal';
+import Modal from '../app/components/modal';
 import '../app/globals.css';
 
 interface Product {
