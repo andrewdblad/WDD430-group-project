@@ -131,6 +131,15 @@ export async function createProduct(user_id: number, category_id: number, name: 
     }
 }
 
+export async function getAllProducts() {
+    try {
+        const result = await client.query('SELECT * FROM products;');
+        return result.rows;
+    } catch (error) {
+        console.error('Error getting all products:', error);
+    }
+}
+
 export async function getProductById(id: number) {
     try {
         const result = await client.query(
