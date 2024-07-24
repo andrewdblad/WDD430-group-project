@@ -1,20 +1,20 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 
 export default function Login() {
     const { data: session } = useSession();
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const router = useRouter();
 
     useEffect(() => {
         if (session) {
             router.push('/profiles');
         }
-    }, [session]);
+    }, [session, router]);
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -29,9 +29,6 @@ export default function Login() {
             setError(result.error);
         } else {
             setError('');
-            if (result?.ok) {
-                router.push('/profiles');
-            }
         }
     };
 
@@ -85,14 +82,6 @@ export default function Login() {
                                 </button>
                             </div>
                         </form>
-                    )}
-                    {session && session.user && (
-                        <>
-                            <p className="mt-4">Welcome, {session.user.name}!</p>
-                            <button onClick={() => signOut()} className="btn btn-secondary mt-4">
-                                Sign out
-                            </button>
-                        </>
                     )}
                 </main>
             </div>

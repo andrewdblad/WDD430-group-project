@@ -2,10 +2,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
-import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { UserIcon } from '@heroicons/react/24/solid';
+import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon, UserIcon } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
     const { data: session } = useSession();
@@ -18,6 +17,7 @@ const Navbar = () => {
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // Handle search logic here, such as redirecting to a search results page. This still needs to be developed more
         console.log('Searching for:', searchTerm);
     };
 
@@ -41,7 +41,21 @@ const Navbar = () => {
                     <Link href="/listings">Products</Link>
                     <Link href="/reviews">Reviews</Link>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center space-x-4">
+                    {session ? (
+                        <button
+                            onClick={() => signOut({ callbackUrl: '/login' })}
+                            className="text-white bg-cambridgeblue hover:bg-ashgray px-3 py-2 rounded-md"
+                        >
+                            Log out
+                        </button>
+                    ) : (
+                        <Link href="/login">
+                            <button className="text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md">
+                                Log in
+                            </button>
+                        </Link>
+                    )}
                     <form onSubmit={handleSearchSubmit} className="flex">
                         <input
                             type="text"
@@ -67,6 +81,14 @@ const Navbar = () => {
                     <Link href={session ? "/profiles" : "/login"} className="block px-2 py-1">Seller Profile</Link>
                     <Link href="/listings" className="block px-2 py-1">Products</Link>
                     <Link href="/reviews" className="block px-2 py-1">Reviews</Link>
+                    {session && (
+                        <button
+                            onClick={() => signOut({ callbackUrl: '/login' })}
+                            className="text-white bg-red-600 hover:bg-red-700 px-3 py-2 rounded-md"
+                        >
+                            Log out
+                        </button>
+                    )}
                 </div>
             )}
         </nav>
