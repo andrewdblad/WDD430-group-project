@@ -3,20 +3,20 @@
 import React, { ReactNode } from 'react';
 import { SessionProvider } from "next-auth/react";
 import NavBar from './NavBar';
+import Footer from './Footer';
 
 interface LayoutProps {
     children: ReactNode;
 }
 
 const ClientLayout = ({ children }: LayoutProps) => {
+    console.log('Rendering ClientLayout');
     return (
         <SessionProvider>
             <div className='min-h-screen flex flex-col'>
                 <NavBar />
                 <main className='flex-1'>{children}</main>
-                <footer className='bg-gray-800 p-4 text-white text-center'>
-                    © 2024 HANDCRAFTED HAVEN™
-                </footer>
+                <Footer />
             </div>
         </SessionProvider>
     );

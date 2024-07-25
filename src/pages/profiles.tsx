@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import NavBar from '../app/components/NavBar';
 import Modal from '../app/components/modal';
+import Footer from '../app/components/Footer';
 import '../app/globals.css';
 
 interface Product {
@@ -278,6 +279,7 @@ const ProfilePage = () => {
                 onConfirm={confirmDelete}
                 message="Are you sure you want to delete this product? This action cannot be undone."
             />
+            <Footer />
         </div>
     );
 };

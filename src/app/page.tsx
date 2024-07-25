@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import ClientLayout from './components/ClientLayout';
 import ProductCards from './components/ProductCards';
 import ReviewCards from './components/ReviewCards';
 
@@ -10,37 +9,37 @@ export default function Home() {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        // Fetch products from the database
         fetch('/api/products')
             .then(response => response.json())
             .then(data => setProducts(data));
     }, []);
 
+    console.log('Rendering Home component');
+
     return (
-        <ClientLayout>
-            <div className='flex flex-col h-screen bg-seasalt pt-20 w-full'>
-                <section className="flex-grow flex justify-center items-center relative w-full h-60">
-                    <Image
-                        src="/banner.png"
-                        alt="Banner Image"
-                        fill
-                        style={{ objectFit: "cover" }}
-                        quality={100}
-                    />
-                    <div className="absolute text-white text-center z-10"></div>
-                </section>
-                <section className="flex-grow flex justify-center items-center">
-                    <div className="text-white text-center w-full">
-                        <ProductCards />
-                    </div>
-                </section>
-                <h1 className="text-center text-4xl font-bold my-8">Best Rated Items</h1>
-                <section className="flex-grow flex justify-center items-center">
-                    <div className="text-white text-center w-full">
-                        <ReviewCards />
-                    </div>
-                </section>
-            </div>
-        </ClientLayout>
+        <div className='flex flex-col bg-seasalt pt-20 w-full'>
+            <section className="flex justify-center items-center relative w-full h-60">
+                <Image
+                    src="/banner.png"
+                    alt="Banner Image"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    quality={100}
+                />
+                <div className="absolute text-white text-center z-10"></div>
+            </section>
+            <h1 className="text-center text-4xl font-bold mt-20">Product Listings</h1>
+            <section className="flex justify-center items-center mt-10 mb-10">
+                <div className="text-white text-center w-full">
+                    <ProductCards />
+                </div>
+            </section>
+            <h1 className="text-center text-4xl font-bold">Best Rated Items</h1>
+            <section className="flex justify-center items-center mt-10 mb-10">
+                <div className="text-white text-center w-full">
+                    <ReviewCards />
+                </div>
+            </section>
+        </div>
     );
 }
