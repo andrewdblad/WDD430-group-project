@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             FROM products
             JOIN categories ON products.category_id = categories.id;
         `;
-        console.log('Products fetched:', result.rows); // Debugging statement
+        // console.log('Products fetched:', result.rows); // Debugging statement
         res.status(200).json(result.rows);
     } catch (error) {
         console.error('Database Error:', error);

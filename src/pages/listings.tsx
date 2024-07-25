@@ -28,7 +28,7 @@ const ProductListing = () => {
                 }
 
                 const products: Product[] = await response.json();
-                console.log('Fetched products:', products); // Debugging statement
+                // console.log('Fetched products:', products); // Debugging statement
                 setProducts(products);
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -80,8 +80,8 @@ const ProductListing = () => {
         setCurrentPage((prevPage) => (prevPage - 1 + totalPages) % totalPages);
     };
 
-    console.log('Current category filter:', categoryFilter); // Debugging statement
-    console.log('Current products:', currentProducts); // Debugging statement
+    // console.log('Current category filter:', categoryFilter); // Debugging statement
+    // console.log('Current products:', currentProducts); // Debugging statement
 
     return (
         <Layout>
